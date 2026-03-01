@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CyberASIR — Galería de Imágenes</title>
+  <style>
+    :root{
+      --bg: #0b0f17; --panel: rgba(255,255,255,.06); --panel2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92); --muted: rgba(255,255,255,.70);
+      --border: rgba(255,255,255,.12); --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px; --radius2: 12px; --link: rgba(147,197,253,.95);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
+    a{ color: var(--link); text-decoration: none; }
+    .wrap{ max-width: 1200px; margin: 0 auto; padding: 28px 18px 60px; }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 24px; }
+    .btn{ border:1px solid var(--border); background: var(--panel2); color: var(--text); padding: 9px 12px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; text-decoration:none; }
+    .btn:hover{ filter: brightness(1.05); }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 768px){ .grid{ grid-template-columns: 1fr 1fr; } }
+    .card{ border:1px solid var(--border); background: var(--panel); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+    .card h3{ margin:0 0 8px; font-size: 15px; }
+    .card .desc{ margin: 4px 0 12px; color: var(--muted); font-size: 13px; }
+    .img-wrap{ width: 100%; height: 0; padding-bottom: 56.25%; position: relative; background: rgba(0,0,0,.1); border-radius: var(--radius2); overflow: hidden; border: 1px solid var(--border); }
+    .img-wrap img{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: rgba(0,0,0,.05); }
+    .footer{ margin-top: 24px; color: var(--muted); font-size: 12px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <h1>📷 Evidencias Visuales en Producción</h1>
+      <a class="btn" href="index.html">⬅️ Volver al Código</a>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h3>1. Dashboard Web Personalizado</h3>
+        <p class="desc">Tabla de geolocalización de ataques y métricas.</p>
+        <div class="img-wrap">
+          <img src="imagenes/dashboard bueno.png" alt="Captura del Dashboard">
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>2. Detección de Intrusiones SIEM</h3>
+        <p class="desc">Panel de Wazuh centralizando alertas críticas de Suricata.</p>
+        <div class="img-wrap">
+          <img src="imagenes/alertas top.png" alt="Alertas críticas en Wazuh">
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>3. Respuesta Activa (Defensa)</h3>
+        <p class="desc">Bloqueo automático de IP atacante con IPTables.</p>
+        <div class="img-wrap">
+          <img src="imagenes/baneo a mi mismo.png" alt="Active Response Wazuh">
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Salud de la Infraestructura</h3>
+        <p class="desc">Logs de monitorización del servidor Linux.</p>
+        <div class="img-wrap">
+          <img src="imagenes/tail -n 30_infra_health.log.png" alt="Log de salud del sistema">
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">CyberASIR — Evidencias para la Defensa Final.</div>
+  </div>
+</body>
+</html>
