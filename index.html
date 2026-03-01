@@ -3,560 +3,139 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Proyecto Intermodular — CyberASIR: SIEM + Honeypot (Código y Recursos)</title>
-  <meta name="description" content="Página principal del repositorio: acceso rápido a código fuente, scripts, infraestructura y documentación del Proyecto Intermodular." />
-
+  <title>Proyecto Intermodular — CyberASIR: SIEM + Honeypot</title>
   <style>
     :root{
-      --bg: #0b0f17;
-      --panel: rgba(255,255,255,.06);
-      --panel2: rgba(255,255,255,.08);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --muted2: rgba(255,255,255,.55);
-      --border: rgba(255,255,255,.12);
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius: 18px;
-      --radius2: 14px;
-      --focus: rgba(120,180,255,.35);
-      --good: rgba(94,234,212,.9);
-      --warn: rgba(251,191,36,.92);
-      --bad: rgba(248,113,113,.92);
+      --bg: #0b0f17; --panel: rgba(255,255,255,.06); --panel2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92); --muted: rgba(255,255,255,.70); --muted2: rgba(255,255,255,.55);
+      --border: rgba(255,255,255,.12); --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px; --radius2: 14px; --focus: rgba(120,180,255,.35);
       --link: rgba(147,197,253,.95);
     }
-
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg: #f7f8fb;
-        --panel: rgba(15,23,42,.05);
-        --panel2: rgba(15,23,42,.07);
-        --text: rgba(15,23,42,.92);
-        --muted: rgba(15,23,42,.70);
-        --muted2: rgba(15,23,42,.55);
-        --border: rgba(15,23,42,.12);
-        --shadow: 0 20px 60px rgba(15,23,42,.10);
-        --focus: rgba(59,130,246,.25);
-        --link: rgba(37,99,235,.95);
-      }
-    }
-
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background:
-        radial-gradient(1200px 800px at 20% 0%, rgba(59,130,246,.18), transparent 55%),
-        radial-gradient(1000px 700px at 90% 10%, rgba(16,185,129,.14), transparent 55%),
-        radial-gradient(900px 600px at 50% 90%, rgba(244,114,182,.10), transparent 55%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-    }
-
+    html,body{ height:100%; margin:0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
     a{ color: var(--link); text-decoration: none; }
     a:hover{ text-decoration: underline; }
-
-    .wrap{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 18px 60px;
-    }
-
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 18px;
-    }
-
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-
-    .logo{
-      width:42px; height:42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(59,130,246,.95), rgba(16,185,129,.85));
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.18);
-      display:grid;
-      place-items:center;
-    }
-
-    .logo svg{ filter: drop-shadow(0 10px 24px rgba(0,0,0,.25)); }
-
-    .titleblock h1{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .titleblock p{
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
-    .btn{
-      appearance:none;
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, var(--panel2), var(--panel));
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor:pointer;
-      box-shadow: 0 12px 40px rgba(0,0,0,.18);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      text-decoration:none;
-      user-select:none;
-    }
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 28px 18px 60px; }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 18px; }
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .logo{ width:42px; height:42px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6, #10b981); display:grid; place-items:center; font-size:20px;}
+    .titleblock h1{ margin:0; font-size: 18px; }
+    .titleblock p{ margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{ border:1px solid var(--border); background: var(--panel2); color: var(--text); padding: 10px 12px; border-radius: 14px; font-weight: 600; font-size: 13px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; text-decoration:none; }
     .btn:hover{ filter: brightness(1.05); text-decoration:none; }
-    .btn:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
-
-    .hero{
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-    }
-
-    .hero h2{
-      margin:0 0 8px;
-      font-size: 16px;
-    }
-    .hero p{
-      margin:0 0 14px;
-      color: var(--muted);
-      font-size: 13.5px;
-    }
-
-    .meta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .pill{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      color: var(--muted);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    @media (min-width: 860px){
-      .grid{
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .card{
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    .cardhead{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 10px;
-    }
-
-    .card h3{
-      margin:0;
-      font-size: 15px;
-      letter-spacing:.2px;
-    }
-    .card .desc{
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .tag{
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      white-space: nowrap;
-      height: fit-content;
-    }
-
-    .list{
-      margin: 10px 0 0;
-      padding:0;
-      list-style:none;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .item{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      border-radius: var(--radius2);
-      padding: 10px 10px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-    }
-
-    .item .left{
-      min-width:0;
-    }
-
-    .item .label{
-      font-weight: 700;
-      font-size: 13px;
-      margin:0;
-    }
-    .item .path{
-      margin:2px 0 0;
-      font-size: 12px;
-      color: var(--muted2);
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      max-width: 520px;
-    }
-
-    .item .right{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
-    .mini{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 7px 9px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 12px;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-    .mini:hover{ filter: brightness(1.05); text-decoration:none; }
-    .mini:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
-
-    .searchbar{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-top: 14px;
-    }
-
-    .search{
-      flex:1;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      border-radius: 16px;
-      padding: 11px 12px;
-      color: var(--text);
-      font-size: 13px;
-      outline:none;
-    }
-    .search:focus{ outline: 3px solid var(--focus); border-color: transparent; }
-
-    .footer{
-      margin-top: 18px;
-      color: var(--muted2);
-      font-size: 12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:space-between;
-      align-items:center;
-    }
-    .kbd{
-      border:1px solid var(--border);
-      border-bottom-width:2px;
-      background: rgba(255,255,255,.06);
-      padding: 2px 7px;
-      border-radius: 8px;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 11px;
-    }
-
-    .hidden{ display:none !important; }
+    .hero{ border:1px solid var(--border); background: var(--panel); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+    .hero h2{ margin:0 0 8px; font-size: 16px; }
+    .hero p{ margin:0 0 14px; color: var(--muted); font-size: 13.5px; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+    @media (min-width: 860px){ .grid{ grid-template-columns: 1fr 1fr; } }
+    .card{ border:1px solid var(--border); background: var(--panel); border-radius: var(--radius); padding: 14px; }
+    .cardhead{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom: 10px; }
+    .card h3{ margin:0; font-size: 15px; }
+    .card .desc{ margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .tag{ font-size: 11px; padding: 6px 10px; border-radius: 999px; border:1px solid var(--border); background: rgba(255,255,255,.06); color: var(--muted); }
+    .list{ margin: 10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .item{ border:1px solid var(--border); background: rgba(255,255,255,.05); border-radius: var(--radius2); padding: 10px; display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+    .item .label{ font-weight: 700; font-size: 13px; margin:0; }
+    .item .path{ margin:2px 0 0; font-size: 12px; color: var(--muted2); }
+    .mini{ border:1px solid var(--border); background: rgba(255,255,255,.06); color: var(--text); padding: 7px 9px; border-radius: 12px; font-weight: 700; font-size: 12px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+    .mini:hover{ filter: brightness(1.05); }
+    .footer{ margin-top: 18px; color: var(--muted2); font-size: 12px; text-align:center; }
   </style>
 </head>
-
 <body>
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z" stroke="white" stroke-width="1.7"/>
-            <path d="M8.5 12.5l2.2 2.2 4.8-5.3" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <div class="logo">🛡️</div>
         <div class="titleblock">
           <h1>Proyecto Intermodular — CyberASIR: SIEM + Honeypot</h1>
-          <p>Acceso directo a código, scripts, infraestructura y documentación del proyecto.</p>
+          <p>Acceso directo a código, scripts e infraestructura del proyecto.</p>
         </div>
       </div>
-
       <div class="actions">
-        <a class="btn" id="btnImages" href="images.html" rel="noopener">
-          <span aria-hidden="true">📷</span> Imágenes
-        </a>
-        <a class="btn" id="btnRepo" href="#" target="_blank" rel="noopener">
-          <span aria-hidden="true">📦</span> Ver repositorio
-        </a>
-        <a class="btn" id="btnZip" href="#" target="_blank" rel="noopener">
-          <span aria-hidden="true">⬇️</span> Descargar ZIP
-        </a>
+        <a class="btn" href="galeria.html" rel="noopener">📷 Imágenes</a>
+        <a class="btn" id="btnRepo" href="#" target="_blank" rel="noopener">📦 Ver repositorio</a>
       </div>
     </div>
 
     <section class="hero">
-      <h2>Mapa del proyecto</h2>
-      <p>
-        Esta página enlaza exclusivamente a los archivos fundamentales desarrollados e implementados en nuestra arquitectura.
-        Ideal para la revisión técnica rápida del tribunal.
-      </p>
-
-      <div class="meta">
-        <span class="pill">🧠 SIEM propio + Honeypot</span>
-        <span class="pill">🧰 Stack: Ubuntu · Apache · MariaDB · PHP · Python</span>
-        <span class="pill">🛡️ Seguridad: Wazuh · UFW · Hardening</span>
-      </div>
-
-      <div class="searchbar">
-        <input class="search" id="search" type="search"
-               placeholder="Buscar archivo (ej: puente_siem, auth, ossec)"
-               aria-label="Buscar enlaces" />
-        <span class="pill">Tip: <span class="kbd">Ctrl</span> + <span class="kbd">K</span></span>
-      </div>
+      <h2>Archivos Clave del Proyecto</h2>
+      <p>Enlaces directos a los archivos fundamentales desarrollados en nuestra arquitectura para la revisión del tribunal.</p>
     </section>
 
     <div class="grid" id="grid"></div>
-
-    <div class="footer">
-      <div>
-        Portal interactivo desplegado con GitHub Pages para el tribunal de ASIR.
-      </div>
-    </div>
+    <div class="footer">Portal interactivo desplegado con GitHub Pages para el tribunal de ASIR.</div>
   </div>
 
   <script>
-    // ========= CONFIGURACIÓN DEL REPOSITORIO =========
-    const GITHUB_OWNER = "grupocuatro-CyberASIR"; // Usuario correcto
-    const GITHUB_REPO  = "CyberASIR";             // Repositorio
+    const GITHUB_OWNER = "grupocuatro-CyberASIR"; 
+    const GITHUB_REPO  = "CyberASIR";             
     const BRANCH       = "main";
 
-    // ========= LINKS EXACTOS DE TUS 10 ARCHIVOS =========
     const LINKS = [
       {
-        title: "Dashboard Web (Frontend)",
-        tag: "UI + Seguridad PHP",
-        desc: "Archivos principales de la interfaz, login y vista de alertas.",
+        title: "Dashboard Web (Frontend)", tag: "UI + Seguridad PHP", desc: "Archivos principales de la interfaz y vistas.",
         items: [
           { label: "Panel Principal", path: "src/index.php", type: "file" },
           { label: "Login de Usuario", path: "src/login.php", type: "file" },
-          { label: "Cierre de Sesión", path: "src/logout.php", type: "file" },
           { label: "Control de Acceso (Auth)", path: "src/auth.php", type: "file" },
-          { label: "Vista de Alertas (Wazuh)", path: "src/wazuh_view.php", type: "file" }
+          { label: "Vista de Alertas", path: "src/wazuh_view.php", type: "file" }
         ]
       },
       {
-        title: "Automatización (Python/Bash)",
-        tag: "Scripts",
-        desc: "Procesamiento de logs (ETL) y comprobación del sistema.",
+        title: "Automatización (Python/Bash)", tag: "Scripts", desc: "Procesamiento ETL y comprobación del sistema.",
         items: [
-          { label: "Puente SIEM (Cowrie -> MySQL)", path: "scripts/puente_siem.py", type: "file" },
-          { label: "Healthcheck de Infraestructura", path: "scripts/infra_healthcheck.sh", type: "file" }
+          { label: "Puente SIEM", path: "scripts/puente_siem.py", type: "file" },
+          { label: "Healthcheck", path: "scripts/infra_healthcheck.sh", type: "file" }
         ]
       },
       {
-        title: "Configuración de Servicios",
-        tag: "Hardening",
-        desc: "Configuraciones base del SIEM y el Honeypot.",
+        title: "Configuración de Servicios", tag: "Hardening", desc: "Configuraciones base del SIEM y el Honeypot.",
         items: [
           { label: "Wazuh Agent/Server", path: "config/ossec.conf", type: "file" },
           { label: "Honeypot Cowrie", path: "config/cowrie_config_respaldo.cfg", type: "file" }
         ]
       },
       {
-        title: "Base de Datos",
-        tag: "SQL",
-        desc: "Estructura de la base de datos utilizada para el SIEM.",
+        title: "Base de Datos", tag: "SQL", desc: "Estructura de la base de datos.",
         items: [
           { label: "Estructura de Tablas", path: "sql/estructura_bbdd.sql", type: "file" }
         ]
       }
     ];
 
-    // ========= LOGICA DE RENDERIZADO (NO TOCAR) =========
-    function repoBase() {
-      return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
-    }
-    function ghBlob(path) {
-      return `${repoBase()}/blob/${BRANCH}/${path}`;
-    }
-    function ghTree(path) {
-      return `${repoBase()}/tree/${BRANCH}/${path}`;
-    }
-    function safe(s){ return (s||"").toString(); }
+    function repoBase() { return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`; }
+    function ghBlob(path) { return `${repoBase()}/blob/${BRANCH}/${path}`; }
 
     const grid = document.getElementById("grid");
-    const search = document.getElementById("search");
-
-    function iconFor(type){
-      return type === "dir" ? "📁" : "📄";
-    }
-
-    function build(){
-      grid.innerHTML = "";
-      LINKS.forEach(section => {
-        const card = document.createElement("section");
-        card.className = "card";
-        card.dataset.title = (section.title + " " + section.desc + " " + section.tag).toLowerCase();
-
-        const head = document.createElement("div");
-        head.className = "cardhead";
-
-        const left = document.createElement("div");
-        const h3 = document.createElement("h3");
-        h3.textContent = section.title;
-        const p = document.createElement("p");
-        p.className = "desc";
-        p.textContent = section.desc;
-        left.appendChild(h3);
-        left.appendChild(p);
-
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = section.tag;
-
-        head.appendChild(left);
-        head.appendChild(tag);
-        card.appendChild(head);
-
-        const ul = document.createElement("ul");
-        ul.className = "list";
-
-        section.items.forEach(it => {
-          const li = document.createElement("li");
-          li.className = "item";
-          li.dataset.search = (it.label + " " + it.path + " " + section.title).toLowerCase();
-
-          const l = document.createElement("div");
-          l.className = "left";
-          const label = document.createElement("p");
-          label.className = "label";
-          label.textContent = `${iconFor(it.type)} ${it.label}`;
-          const path = document.createElement("p");
-          path.className = "path";
-          path.textContent = it.path;
-
-          l.appendChild(label);
-          l.appendChild(path);
-
-          const r = document.createElement("div");
-          r.className = "right";
-
-          const view = document.createElement("a");
-          view.className = "mini";
-          view.target = "_blank";
-          view.rel = "noopener";
-          view.href = it.type === "dir" ? ghTree(it.path) : ghBlob(it.path);
-          view.textContent = "Ver en GitHub";
-
-          r.appendChild(view);
-
-          if (it.type === "file") {
-            const raw = document.createElement("a");
-            raw.className = "mini";
-            raw.target = "_blank";
-            raw.rel = "noopener";
-            raw.href = `${repoBase()}/raw/${BRANCH}/${it.path}`;
-            raw.textContent = "Raw";
-            r.appendChild(raw);
-          }
-
-          li.appendChild(l);
-          li.appendChild(r);
-          ul.appendChild(li);
-        });
-
-        card.appendChild(ul);
-        grid.appendChild(card);
+    LINKS.forEach(section => {
+      const card = document.createElement("section"); card.className = "card";
+      const head = document.createElement("div"); head.className = "cardhead";
+      const left = document.createElement("div");
+      const h3 = document.createElement("h3"); h3.textContent = section.title;
+      const p = document.createElement("p"); p.className = "desc"; p.textContent = section.desc;
+      left.appendChild(h3); left.appendChild(p);
+      const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = section.tag;
+      head.appendChild(left); head.appendChild(tag); card.appendChild(head);
+      
+      const ul = document.createElement("ul"); ul.className = "list";
+      section.items.forEach(it => {
+        const li = document.createElement("li"); li.className = "item";
+        const l = document.createElement("div"); l.className = "left";
+        const label = document.createElement("p"); label.className = "label"; label.textContent = `📄 ${it.label}`;
+        const path = document.createElement("p"); path.className = "path"; path.textContent = it.path;
+        l.appendChild(label); l.appendChild(path);
+        
+        const r = document.createElement("div"); r.className = "right";
+        const view = document.createElement("a"); view.className = "mini"; view.target = "_blank"; view.href = ghBlob(it.path); view.textContent = "Ver código";
+        r.appendChild(view); li.appendChild(l); li.appendChild(r); ul.appendChild(li);
       });
-    }
-
-    function applyFilter(q){
-      q = (q||"").trim().toLowerCase();
-      const cards = [...grid.querySelectorAll(".card")];
-      cards.forEach(card => {
-        const items = [...card.querySelectorAll(".item")];
-        let anyItemVisible = false;
-
-        items.forEach(it => {
-          const ok = !q || it.dataset.search.includes(q) || card.dataset.title.includes(q);
-          it.classList.toggle("hidden", !ok);
-          if (ok) anyItemVisible = true;
-        });
-
-        card.classList.toggle("hidden", !anyItemVisible);
-      });
-    }
-
-    build();
-
-    document.getElementById("btnRepo").href = repoBase();
-    document.getElementById("btnZip").href = repoBase() + "/archive/refs/heads/" + BRANCH + ".zip";
-
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        search.focus();
-      }
+      card.appendChild(ul); grid.appendChild(card);
     });
 
-    search.addEventListener("input", () => applyFilter(search.value));
+    document.getElementById("btnRepo").href = repoBase();
   </script>
 </body>
 </html>
