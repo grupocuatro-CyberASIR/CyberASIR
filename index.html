@@ -334,16 +334,13 @@
         </div>
         <div class="titleblock">
           <h1>Proyecto Intermodular — CyberASIR: SIEM + Honeypot</h1>
-          <p>Acceso directo a código, scripts, infraestructura y documentación del proyecto.</p>
+          <p>Acceso directo a código, scripts, infraestructura y base de datos del proyecto.</p>
         </div>
       </div>
 
       <div class="actions">
         <a class="btn" id="btnRepo" href="#" target="_blank" rel="noopener">
           <span aria-hidden="true">📦</span> Ver repositorio
-        </a>
-        <a class="btn" id="btnIssues" href="#" target="_blank" rel="noopener">
-          <span aria-hidden="true">🧩</span> Issues / tareas
         </a>
         <a class="btn" id="btnZip" href="#" target="_blank" rel="noopener">
           <span aria-hidden="true">⬇️</span> Descargar ZIP
@@ -352,21 +349,21 @@
     </div>
 
     <section class="hero">
-      <h2>Mapa del proyecto</h2>
+      <h2>Archivos Clave del Proyecto</h2>
       <p>
-        Esta página enlaza a los archivos clave (ETL, API, dashboard, SQL, hardening y documentación).
-        Ideal para la revisión técnica del tribunal.
+        Esta página enlaza exclusivamente a los archivos fundamentales desarrollados e implementados en nuestra arquitectura.
+        Ideal para la revisión técnica rápida del tribunal.
       </p>
 
       <div class="meta">
         <span class="pill">🧠 SIEM propio + Honeypot</span>
-        <span class="pill">🧰 Stack: Ubuntu · Apache · MariaDB · PHP · Python</span>
-        <span class="pill">🛡️ Seguridad: iptables/UFW · Wazuh · Suricata · Fail2ban</span>
+        <span class="pill">🧰 Stack: Ubuntu · MariaDB · PHP · Python</span>
+        <span class="pill">🛡️ Seguridad: Wazuh · UFW · Hardening</span>
       </div>
 
       <div class="searchbar">
         <input class="search" id="search" type="search"
-               placeholder="Buscar por archivo, ruta o palabra clave… (ej: puente_siem, stats, auth)"
+               placeholder="Buscar archivo (ej: puente_siem, auth, ossec)"
                aria-label="Buscar enlaces" />
         <span class="pill">Tip: <span class="kbd">Ctrl</span> + <span class="kbd">K</span></span>
       </div>
@@ -376,49 +373,38 @@
 
     <div class="footer">
       <div>
-        Portal interactivo desplegado con GitHub Pages para CyberASIR.
-      </div>
-      <div>
-        <a href="#" id="btnEdit" target="_blank" rel="noopener">✏️ Editar esta página</a>
+        Portal interactivo desplegado con GitHub Pages para el tribunal de ASIR.
       </div>
     </div>
   </div>
 
   <script>
     // ========= CONFIGURACIÓN DEL REPOSITORIO =========
-    const GITHUB_OWNER = "grupocuatro-CyberASIR"; // Usuario correcto
-    const GITHUB_REPO  = "CyberASIR";             // Repositorio
+    const GITHUB_OWNER = "grupocuatro-CyberASIR"; 
+    const GITHUB_REPO  = "CyberASIR";             
     const BRANCH       = "main";
 
     // Dashboard en vivo
     const LIVE_DASHBOARD_URL = "https://cyberasir.duckdns.org/login.php";
 
-    // ========= LINKS DEL PROYECTO CON RUTAS EXACTAS =========
+    // ========= LINKS EXACTOS DE TUS 10 ARCHIVOS =========
     const LINKS = [
       {
         title: "Dashboard Web (Frontend)",
-        tag: "UI + Seguridad",
-        desc: "Interfaz PHP con control de sesiones estricto y visualización de datos.",
+        tag: "UI + Seguridad PHP",
+        desc: "Archivos principales de la interfaz, login y vista de alertas.",
         items: [
           { label: "Panel Principal", path: "src/index.php", type: "file" },
-          { label: "Control de Acceso (Auth)", path: "src/auth.php", type: "file" },
           { label: "Login de Usuario", path: "src/login.php", type: "file" },
+          { label: "Cierre de Sesión", path: "src/logout.php", type: "file" },
+          { label: "Control de Acceso (Auth)", path: "src/auth.php", type: "file" },
           { label: "Vista de Alertas (Wazuh)", path: "src/wazuh_view.php", type: "file" }
-        ]
-      },
-      {
-        title: "API y Backend",
-        tag: "Backend",
-        desc: "Endpoints para métricas y configuración de la base de datos.",
-        items: [
-          { label: "Motor de Estadísticas", path: "src/api/stats.php", type: "file" },
-          { label: "Configuración DB", path: "src/api/config.php", type: "file" }
         ]
       },
       {
         title: "Automatización (Python/Bash)",
         tag: "Scripts",
-        desc: "Procesamiento de logs JSON (ETL) y scripts de monitorización.",
+        desc: "Procesamiento de logs (ETL) y comprobación del sistema.",
         items: [
           { label: "Puente SIEM (Cowrie -> MySQL)", path: "scripts/puente_siem.py", type: "file" },
           { label: "Healthcheck de Infraestructura", path: "scripts/infra_healthcheck.sh", type: "file" }
@@ -427,19 +413,18 @@
       {
         title: "Configuración de Servicios",
         tag: "Hardening",
-        desc: "Archivos de configuración del SIEM y el Honeypot.",
+        desc: "Configuraciones base del SIEM y el Honeypot.",
         items: [
-          { label: "Wazuh Agent/Server (ossec.conf)", path: "config/ossec.conf", type: "file" },
-          { label: "Honeypot Cowrie (cowrie.cfg)", path: "config/cowrie_config_respaldo.cfg", type: "file" }
+          { label: "Wazuh Agent/Server", path: "config/ossec.conf", type: "file" },
+          { label: "Honeypot Cowrie", path: "config/cowrie_config_respaldo.cfg", type: "file" }
         ]
       },
       {
         title: "Base de Datos",
         tag: "SQL",
-        desc: "Esquemas de tablas y consultas utilizadas en el dashboard.",
+        desc: "Estructura de la base de datos utilizada para el SIEM.",
         items: [
-          { label: "Estructura de Tablas", path: "sql/estructura_bbdd.sql", type: "file" },
-          { label: "Consultas de Métricas", path: "sql/stats.sql", type: "file" }
+          { label: "Estructura de Tablas", path: "sql/estructura_bbdd.sql", type: "file" }
         ]
       }
     ];
@@ -453,9 +438,6 @@
     }
     function ghTree(path) {
       return `${repoBase()}/tree/${BRANCH}/${path}`;
-    }
-    function ghEdit(path) {
-      return `${repoBase()}/edit/${BRANCH}/${path}`;
     }
     function safe(s){ return (s||"").toString(); }
 
@@ -565,9 +547,7 @@
     build();
 
     document.getElementById("btnRepo").href = repoBase();
-    document.getElementById("btnIssues").href = repoBase() + "/issues";
     document.getElementById("btnZip").href = repoBase() + "/archive/refs/heads/" + BRANCH + ".zip";
-    document.getElementById("btnEdit").href = ghEdit("index.html");
 
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
