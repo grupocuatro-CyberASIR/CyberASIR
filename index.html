@@ -333,7 +333,7 @@
           </svg>
         </div>
         <div class="titleblock">
-          <h1>TFG — SIEM + Honeypot (Cowrie)</h1>
+          <h1>TFG — CyberASIR: SIEM + Honeypot</h1>
           <p>Acceso directo a código, scripts, infraestructura y documentación del proyecto.</p>
         </div>
       </div>
@@ -354,19 +354,19 @@
     <section class="hero">
       <h2>Mapa del proyecto</h2>
       <p>
-        Esta página enlaza a los archivos clave (ETL, API, dashboard, SQL, Docker, hardening y documentación).
-        Ideal para la defensa: “haz clic y lo enseño”.
+        Esta página enlaza a los archivos clave (ETL, API, dashboard, SQL, hardening y documentación).
+        Ideal para la revisión técnica del tribunal.
       </p>
 
       <div class="meta">
         <span class="pill">🧠 SIEM propio + Honeypot</span>
-        <span class="pill">🧰 Stack: Ubuntu · Apache · MySQL · PHP · Python</span>
+        <span class="pill">🧰 Stack: Ubuntu · Apache · MariaDB · PHP · Python</span>
         <span class="pill">🛡️ Seguridad: iptables/UFW · Wazuh · Suricata · Fail2ban</span>
       </div>
 
       <div class="searchbar">
         <input class="search" id="search" type="search"
-               placeholder="Buscar por archivo, ruta o palabra clave… (ej: puente_siem, stats.php, docker)"
+               placeholder="Buscar por archivo, ruta o palabra clave… (ej: puente_siem, stats, auth)"
                aria-label="Buscar enlaces" />
         <span class="pill">Tip: <span class="kbd">Ctrl</span> + <span class="kbd">K</span></span>
       </div>
@@ -376,7 +376,7 @@
 
     <div class="footer">
       <div>
-        Hecho para GitHub Pages (carpeta <span class="kbd">/docs</span>). Edita las rutas en el array <span class="kbd">LINKS</span>.
+        Portal interactivo desplegado con GitHub Pages para CyberASIR.
       </div>
       <div>
         <a href="#" id="btnEdit" target="_blank" rel="noopener">✏️ Editar esta página</a>
@@ -385,98 +385,66 @@
   </div>
 
   <script>
-    // ========= CONFIGURA TU REPO AQUÍ =========
-    const GITHUB_OWNER = "TU_USUARIO";    // ej: "AxelCyber"
-    const GITHUB_REPO  = "TU_REPO";       // ej: "tfg-siem-honeypot"
-    const BRANCH       = "main";          // ej: "main" o "master"
+    // ========= CONFIGURACIÓN DEL REPOSITORIO =========
+    const GITHUB_OWNER = "grupocuatro-CyberASIR"; // Usuario correcto
+    const GITHUB_REPO  = "CyberASIR";             // Repositorio
+    const BRANCH       = "main";
 
-    // (Opcional) enlaces externos de demo
-    const LIVE_DASHBOARD_URL = ""; // ej: "https://cyberasir.duckdns.org/siem/"
+    // Dashboard en vivo
+    const LIVE_DASHBOARD_URL = "https://cyberasir.duckdns.org/login.php";
 
-    // ========= LINKS DEL PROYECTO (EDITA RUTAS) =========
-    // path: ruta dentro del repo
-    // type: "file" | "dir"
+    // ========= LINKS DEL PROYECTO CON RUTAS EXACTAS =========
     const LINKS = [
       {
-        title: "Frontend / Dashboard",
-        tag: "UI + Gráficas",
-        desc: "Página principal, login y dashboard (HTML/CSS/PHP/Chart.js si aplica).",
+        title: "Dashboard Web (Frontend)",
+        tag: "UI + Seguridad",
+        desc: "Interfaz PHP con control de sesiones estricto y visualización de datos.",
         items: [
-          { label: "Página principal (dashboard)", path: "src/frontend/index.php", type: "file" },
-          { label: "Login / Auth", path: "src/frontend/login.php", type: "file" },
-          { label: "CSS principal", path: "src/frontend/assets/styles.css", type: "file" },
+          { label: "Panel Principal", path: "src/index.php", type: "file" },
+          { label: "Control de Acceso (Auth)", path: "src/auth.php", type: "file" },
+          { label: "Login de Usuario", path: "src/login.php", type: "file" },
+          { label: "Vista de Alertas (Wazuh)", path: "src/wazuh_view.php", type: "file" }
         ]
       },
       {
-        title: "API (endpoints JSON)",
+        title: "API y Backend",
         tag: "Backend",
-        desc: "Endpoints para métricas: totales, top IPs, rangos, etc.",
+        desc: "Endpoints para métricas y configuración de la base de datos.",
         items: [
-          { label: "Stats API", path: "src/api/stats.php", type: "file" },
-          { label: "Auth API (si existe)", path: "src/api/auth.php", type: "file" },
+          { label: "Motor de Estadísticas", path: "src/api/stats.php", type: "file" },
+          { label: "Configuración DB", path: "src/api/config.php", type: "file" }
         ]
       },
       {
-        title: "ETL / Parser (Python)",
-        tag: "Procesamiento",
-        desc: "Puente que lee logs de Cowrie, normaliza datos y los inserta en MySQL.",
+        title: "Automatización (Python/Bash)",
+        tag: "Scripts",
+        desc: "Procesamiento de logs JSON (ETL) y scripts de monitorización.",
         items: [
-          { label: "puente_siem.py", path: "etl/puente_siem.py", type: "file" },
-          { label: "requirements.txt", path: "etl/requirements.txt", type: "file" },
+          { label: "Puente SIEM (Cowrie -> MySQL)", path: "scripts/puente_siem.py", type: "file" },
+          { label: "Healthcheck de Infraestructura", path: "scripts/infra_healthcheck.sh", type: "file" }
         ]
       },
       {
-        title: "Base de datos (MySQL)",
+        title: "Configuración de Servicios",
+        tag: "Hardening",
+        desc: "Archivos de configuración del SIEM y el Honeypot.",
+        items: [
+          { label: "Wazuh Agent/Server (ossec.conf)", path: "config/ossec.conf", type: "file" },
+          { label: "Honeypot Cowrie (cowrie.cfg)", path: "config/cowrie_config_respaldo.cfg", type: "file" }
+        ]
+      },
+      {
+        title: "Base de Datos",
         tag: "SQL",
-        desc: "Esquema, tablas, índices y consultas útiles para auditoría.",
+        desc: "Esquemas de tablas y consultas utilizadas en el dashboard.",
         items: [
-          { label: "Schema / tablas", path: "sql/schema.sql", type: "file" },
-          { label: "Consultas útiles", path: "sql/queries.sql", type: "file" },
-        ]
-      },
-      {
-        title: "Infraestructura / Docker",
-        tag: "Deploy",
-        desc: "Composición, volúmenes y configuración del honeypot Cowrie.",
-        items: [
-          { label: "docker-compose (Cowrie)", path: "infra/docker/docker-compose.yml", type: "file" },
-          { label: "Config Cowrie", path: "infra/cowrie/cowrie.cfg", type: "file" },
-          { label: "Carpeta de logs (ejemplo)", path: "infra/cowrie/logs/", type: "dir" },
-        ]
-      },
-      {
-        title: "Seguridad / Hardening",
-        tag: "Defense in Depth",
-        desc: "Firewall, IDS, SIEM externo (Wazuh), reglas y scripts de seguridad.",
-        items: [
-          { label: "Reglas iptables", path: "security/iptables.rules", type: "file" },
-          { label: "UFW (si usas)", path: "security/ufw.txt", type: "file" },
-          { label: "Suricata (yaml)", path: "security/suricata/suricata.yaml", type: "file" },
-          { label: "Wazuh (notas/config)", path: "security/wazuh/", type: "dir" },
-        ]
-      },
-      {
-        title: "Automatización / Backups",
-        tag: "Cron + scripts",
-        desc: "Tareas programadas (procesamiento cada minuto, copias a las 02:00, etc.).",
-        items: [
-          { label: "backup_logs.sh", path: "scripts/backup_logs.sh", type: "file" },
-          { label: "cron (ejemplo)", path: "scripts/cron.txt", type: "file" },
-        ]
-      },
-      {
-        title: "Documentación",
-        tag: "TFG",
-        desc: "Memoria, anexos, capturas y evidencias para la defensa.",
-        items: [
-          { label: "Memoria (PDF)", path: "docs/memoria.pdf", type: "file" },
-          { label: "Anexos", path: "docs/anexos/", type: "dir" },
-          { label: "Capturas", path: "docs/capturas/", type: "dir" },
+          { label: "Estructura de Tablas", path: "sql/estructura_bbdd.sql", type: "file" },
+          { label: "Consultas de Métricas", path: "sql/stats.sql", type: "file" }
         ]
       }
     ];
 
-    // ========= HELPERS =========
+    // ========= LOGICA DE RENDERIZADO (NO TOCAR) =========
     function repoBase() {
       return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
     }
@@ -491,7 +459,6 @@
     }
     function safe(s){ return (s||"").toString(); }
 
-    // ========= RENDER =========
     const grid = document.getElementById("grid");
     const search = document.getElementById("search");
 
@@ -595,16 +562,13 @@
       });
     }
 
-    // ========= INIT =========
     build();
 
-    // Botones del topbar
     document.getElementById("btnRepo").href = repoBase();
     document.getElementById("btnIssues").href = repoBase() + "/issues";
     document.getElementById("btnZip").href = repoBase() + "/archive/refs/heads/" + BRANCH + ".zip";
-    document.getElementById("btnEdit").href = ghEdit("docs/index.html");
+    document.getElementById("btnEdit").href = ghEdit("index.html");
 
-    // Atajo Ctrl+K para enfocar búsqueda
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -614,7 +578,6 @@
 
     search.addEventListener("input", () => applyFilter(search.value));
 
-    // (Opcional) si tienes dashboard live, añade un botón rápido
     if (LIVE_DASHBOARD_URL) {
       const a = document.createElement("a");
       a.className = "btn";
