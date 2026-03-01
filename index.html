@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TFG — SIEM + Honeypot (Código y Recursos)</title>
+  <meta name="description" content="Página principal del repositorio: acceso rápido a código fuente, scripts, infraestructura y documentación del TFG." />
+
+  <style>
+    :root{
+      --bg: #0b0f17;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --focus: rgba(120,180,255,.35);
+      --good: rgba(94,234,212,.9);
+      --warn: rgba(251,191,36,.92);
+      --bad: rgba(248,113,113,.92);
+      --link: rgba(147,197,253,.95);
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f7f8fb;
+        --panel: rgba(15,23,42,.05);
+        --panel2: rgba(15,23,42,.07);
+        --text: rgba(15,23,42,.92);
+        --muted: rgba(15,23,42,.70);
+        --muted2: rgba(15,23,42,.55);
+        --border: rgba(15,23,42,.12);
+        --shadow: 0 20px 60px rgba(15,23,42,.10);
+        --focus: rgba(59,130,246,.25);
+        --link: rgba(37,99,235,.95);
+      }
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 0%, rgba(59,130,246,.18), transparent 55%),
+        radial-gradient(1000px 700px at 90% 10%, rgba(16,185,129,.14), transparent 55%),
+        radial-gradient(900px 600px at 50% 90%, rgba(244,114,182,.10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 18px;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .logo{
+      width:42px; height:42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(59,130,246,.95), rgba(16,185,129,.85));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.18);
+      display:grid;
+      place-items:center;
+    }
+
+    .logo svg{ filter: drop-shadow(0 10px 24px rgba(0,0,0,.25)); }
+
+    .titleblock h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .titleblock p{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--panel2), var(--panel));
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor:pointer;
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      user-select:none;
+    }
+    .btn:hover{ filter: brightness(1.05); text-decoration:none; }
+    .btn:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
+
+    .hero{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .hero h2{
+      margin:0 0 8px;
+      font-size: 16px;
+    }
+    .hero p{
+      margin:0 0 14px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .cardhead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+
+    .card h3{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .card .desc{
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tag{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      white-space: nowrap;
+      height: fit-content;
+    }
+
+    .list{
+      margin: 10px 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .item{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      padding: 10px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+
+    .item .left{
+      min-width:0;
+    }
+
+    .item .label{
+      font-weight: 700;
+      font-size: 13px;
+      margin:0;
+    }
+    .item .path{
+      margin:2px 0 0;
+      font-size: 12px;
+      color: var(--muted2);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      max-width: 520px;
+    }
+
+    .item .right{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .mini{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 7px 9px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 12px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .mini:hover{ filter: brightness(1.05); text-decoration:none; }
+    .mini:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
+
+    .searchbar{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top: 14px;
+    }
+
+    .search{
+      flex:1;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 11px 12px;
+      color: var(--text);
+      font-size: 13px;
+      outline:none;
+    }
+    .search:focus{ outline: 3px solid var(--focus); border-color: transparent; }
+
+    .footer{
+      margin-top: 18px;
+      color: var(--muted2);
+      font-size: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .kbd{
+      border:1px solid var(--border);
+      border-bottom-width:2px;
+      background: rgba(255,255,255,.06);
+      padding: 2px 7px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .hidden{ display:none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z" stroke="white" stroke-width="1.7"/>
+            <path d="M8.5 12.5l2.2 2.2 4.8-5.3" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="titleblock">
+          <h1>TFG — SIEM + Honeypot (Cowrie)</h1>
+          <p>Acceso directo a código, scripts, infraestructura y documentación del proyecto.</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn" id="btnRepo" href="#" target="_blank" rel="noopener">
+          <span aria-hidden="true">📦</span> Ver repositorio
+        </a>
+        <a class="btn" id="btnIssues" href="#" target="_blank" rel="noopener">
+          <span aria-hidden="true">🧩</span> Issues / tareas
+        </a>
+        <a class="btn" id="btnZip" href="#" target="_blank" rel="noopener">
+          <span aria-hidden="true">⬇️</span> Descargar ZIP
+        </a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h2>Mapa del proyecto</h2>
+      <p>
+        Esta página enlaza a los archivos clave (ETL, API, dashboard, SQL, Docker, hardening y documentación).
+        Ideal para la defensa: “haz clic y lo enseño”.
+      </p>
+
+      <div class="meta">
+        <span class="pill">🧠 SIEM propio + Honeypot</span>
+        <span class="pill">🧰 Stack: Ubuntu · Apache · MySQL · PHP · Python</span>
+        <span class="pill">🛡️ Seguridad: iptables/UFW · Wazuh · Suricata · Fail2ban</span>
+      </div>
+
+      <div class="searchbar">
+        <input class="search" id="search" type="search"
+               placeholder="Buscar por archivo, ruta o palabra clave… (ej: puente_siem, stats.php, docker)"
+               aria-label="Buscar enlaces" />
+        <span class="pill">Tip: <span class="kbd">Ctrl</span> + <span class="kbd">K</span></span>
+      </div>
+    </section>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footer">
+      <div>
+        Hecho para GitHub Pages (carpeta <span class="kbd">/docs</span>). Edita las rutas en el array <span class="kbd">LINKS</span>.
+      </div>
+      <div>
+        <a href="#" id="btnEdit" target="_blank" rel="noopener">✏️ Editar esta página</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========= CONFIGURA TU REPO AQUÍ =========
+    const GITHUB_OWNER = "TU_USUARIO";    // ej: "AxelCyber"
+    const GITHUB_REPO  = "TU_REPO";       // ej: "tfg-siem-honeypot"
+    const BRANCH       = "main";          // ej: "main" o "master"
+
+    // (Opcional) enlaces externos de demo
+    const LIVE_DASHBOARD_URL = ""; // ej: "https://cyberasir.duckdns.org/siem/"
+
+    // ========= LINKS DEL PROYECTO (EDITA RUTAS) =========
+    // path: ruta dentro del repo
+    // type: "file" | "dir"
+    const LINKS = [
+      {
+        title: "Frontend / Dashboard",
+        tag: "UI + Gráficas",
+        desc: "Página principal, login y dashboard (HTML/CSS/PHP/Chart.js si aplica).",
+        items: [
+          { label: "Página principal (dashboard)", path: "src/frontend/index.php", type: "file" },
+          { label: "Login / Auth", path: "src/frontend/login.php", type: "file" },
+          { label: "CSS principal", path: "src/frontend/assets/styles.css", type: "file" },
+        ]
+      },
+      {
+        title: "API (endpoints JSON)",
+        tag: "Backend",
+        desc: "Endpoints para métricas: totales, top IPs, rangos, etc.",
+        items: [
+          { label: "Stats API", path: "src/api/stats.php", type: "file" },
+          { label: "Auth API (si existe)", path: "src/api/auth.php", type: "file" },
+        ]
+      },
+      {
+        title: "ETL / Parser (Python)",
+        tag: "Procesamiento",
+        desc: "Puente que lee logs de Cowrie, normaliza datos y los inserta en MySQL.",
+        items: [
+          { label: "puente_siem.py", path: "etl/puente_siem.py", type: "file" },
+          { label: "requirements.txt", path: "etl/requirements.txt", type: "file" },
+        ]
+      },
+      {
+        title: "Base de datos (MySQL)",
+        tag: "SQL",
+        desc: "Esquema, tablas, índices y consultas útiles para auditoría.",
+        items: [
+          { label: "Schema / tablas", path: "sql/schema.sql", type: "file" },
+          { label: "Consultas útiles", path: "sql/queries.sql", type: "file" },
+        ]
+      },
+      {
+        title: "Infraestructura / Docker",
+        tag: "Deploy",
+        desc: "Composición, volúmenes y configuración del honeypot Cowrie.",
+        items: [
+          { label: "docker-compose (Cowrie)", path: "infra/docker/docker-compose.yml", type: "file" },
+          { label: "Config Cowrie", path: "infra/cowrie/cowrie.cfg", type: "file" },
+          { label: "Carpeta de logs (ejemplo)", path: "infra/cowrie/logs/", type: "dir" },
+        ]
+      },
+      {
+        title: "Seguridad / Hardening",
+        tag: "Defense in Depth",
+        desc: "Firewall, IDS, SIEM externo (Wazuh), reglas y scripts de seguridad.",
+        items: [
+          { label: "Reglas iptables", path: "security/iptables.rules", type: "file" },
+          { label: "UFW (si usas)", path: "security/ufw.txt", type: "file" },
+          { label: "Suricata (yaml)", path: "security/suricata/suricata.yaml", type: "file" },
+          { label: "Wazuh (notas/config)", path: "security/wazuh/", type: "dir" },
+        ]
+      },
+      {
+        title: "Automatización / Backups",
+        tag: "Cron + scripts",
+        desc: "Tareas programadas (procesamiento cada minuto, copias a las 02:00, etc.).",
+        items: [
+          { label: "backup_logs.sh", path: "scripts/backup_logs.sh", type: "file" },
+          { label: "cron (ejemplo)", path: "scripts/cron.txt", type: "file" },
+        ]
+      },
+      {
+        title: "Documentación",
+        tag: "TFG",
+        desc: "Memoria, anexos, capturas y evidencias para la defensa.",
+        items: [
+          { label: "Memoria (PDF)", path: "docs/memoria.pdf", type: "file" },
+          { label: "Anexos", path: "docs/anexos/", type: "dir" },
+          { label: "Capturas", path: "docs/capturas/", type: "dir" },
+        ]
+      }
+    ];
+
+    // ========= HELPERS =========
+    function repoBase() {
+      return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
+    }
+    function ghBlob(path) {
+      return `${repoBase()}/blob/${BRANCH}/${path}`;
+    }
+    function ghTree(path) {
+      return `${repoBase()}/tree/${BRANCH}/${path}`;
+    }
+    function ghEdit(path) {
+      return `${repoBase()}/edit/${BRANCH}/${path}`;
+    }
+    function safe(s){ return (s||"").toString(); }
+
+    // ========= RENDER =========
+    const grid = document.getElementById("grid");
+    const search = document.getElementById("search");
+
+    function iconFor(type){
+      return type === "dir" ? "📁" : "📄";
+    }
+
+    function build(){
+      grid.innerHTML = "";
+      LINKS.forEach(section => {
+        const card = document.createElement("section");
+        card.className = "card";
+        card.dataset.title = (section.title + " " + section.desc + " " + section.tag).toLowerCase();
+
+        const head = document.createElement("div");
+        head.className = "cardhead";
+
+        const left = document.createElement("div");
+        const h3 = document.createElement("h3");
+        h3.textContent = section.title;
+        const p = document.createElement("p");
+        p.className = "desc";
+        p.textContent = section.desc;
+        left.appendChild(h3);
+        left.appendChild(p);
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = section.tag;
+
+        head.appendChild(left);
+        head.appendChild(tag);
+        card.appendChild(head);
+
+        const ul = document.createElement("ul");
+        ul.className = "list";
+
+        section.items.forEach(it => {
+          const li = document.createElement("li");
+          li.className = "item";
+          li.dataset.search = (it.label + " " + it.path + " " + section.title).toLowerCase();
+
+          const l = document.createElement("div");
+          l.className = "left";
+          const label = document.createElement("p");
+          label.className = "label";
+          label.textContent = `${iconFor(it.type)} ${it.label}`;
+          const path = document.createElement("p");
+          path.className = "path";
+          path.textContent = it.path;
+
+          l.appendChild(label);
+          l.appendChild(path);
+
+          const r = document.createElement("div");
+          r.className = "right";
+
+          const view = document.createElement("a");
+          view.className = "mini";
+          view.target = "_blank";
+          view.rel = "noopener";
+          view.href = it.type === "dir" ? ghTree(it.path) : ghBlob(it.path);
+          view.textContent = "Ver en GitHub";
+
+          r.appendChild(view);
+
+          if (it.type === "file") {
+            const raw = document.createElement("a");
+            raw.className = "mini";
+            raw.target = "_blank";
+            raw.rel = "noopener";
+            raw.href = `${repoBase()}/raw/${BRANCH}/${it.path}`;
+            raw.textContent = "Raw";
+            r.appendChild(raw);
+          }
+
+          li.appendChild(l);
+          li.appendChild(r);
+          ul.appendChild(li);
+        });
+
+        card.appendChild(ul);
+        grid.appendChild(card);
+      });
+    }
+
+    function applyFilter(q){
+      q = (q||"").trim().toLowerCase();
+      const cards = [...grid.querySelectorAll(".card")];
+      cards.forEach(card => {
+        const items = [...card.querySelectorAll(".item")];
+        let anyItemVisible = false;
+
+        items.forEach(it => {
+          const ok = !q || it.dataset.search.includes(q) || card.dataset.title.includes(q);
+          it.classList.toggle("hidden", !ok);
+          if (ok) anyItemVisible = true;
+        });
+
+        card.classList.toggle("hidden", !anyItemVisible);
+      });
+    }
+
+    // ========= INIT =========
+    build();
+
+    // Botones del topbar
+    document.getElementById("btnRepo").href = repoBase();
+    document.getElementById("btnIssues").href = repoBase() + "/issues";
+    document.getElementById("btnZip").href = repoBase() + "/archive/refs/heads/" + BRANCH + ".zip";
+    document.getElementById("btnEdit").href = ghEdit("docs/index.html");
+
+    // Atajo Ctrl+K para enfocar búsqueda
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        search.focus();
+      }
+    });
+
+    search.addEventListener("input", () => applyFilter(search.value));
+
+    // (Opcional) si tienes dashboard live, añade un botón rápido
+    if (LIVE_DASHBOARD_URL) {
+      const a = document.createElement("a");
+      a.className = "btn";
+      a.href = LIVE_DASHBOARD_URL;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = '<span aria-hidden="true">🌐</span> Dashboard en vivo';
+      document.querySelector(".actions").prepend(a);
+    }
+  </script>
+</body>
+</html>
