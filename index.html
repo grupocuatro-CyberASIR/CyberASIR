@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Proyecto Intermodular — SIEM + Honeypot (Código y Recursos)</title>
+  <title>Proyecto Intermodular — CyberASIR: SIEM + Honeypot (Código y Recursos)</title>
   <meta name="description" content="Página principal del repositorio: acceso rápido a código fuente, scripts, infraestructura y documentación del Proyecto Intermodular." />
 
   <style>
@@ -334,11 +334,14 @@
         </div>
         <div class="titleblock">
           <h1>Proyecto Intermodular — CyberASIR: SIEM + Honeypot</h1>
-          <p>Acceso directo a código, scripts, infraestructura y base de datos del proyecto.</p>
+          <p>Acceso directo a código, scripts, infraestructura y documentación del proyecto.</p>
         </div>
       </div>
 
       <div class="actions">
+        <a class="btn" id="btnImages" href="images.html" rel="noopener">
+          <span aria-hidden="true">📷</span> Imágenes
+        </a>
         <a class="btn" id="btnRepo" href="#" target="_blank" rel="noopener">
           <span aria-hidden="true">📦</span> Ver repositorio
         </a>
@@ -349,7 +352,7 @@
     </div>
 
     <section class="hero">
-      <h2>Archivos Clave del Proyecto</h2>
+      <h2>Mapa del proyecto</h2>
       <p>
         Esta página enlaza exclusivamente a los archivos fundamentales desarrollados e implementados en nuestra arquitectura.
         Ideal para la revisión técnica rápida del tribunal.
@@ -357,7 +360,7 @@
 
       <div class="meta">
         <span class="pill">🧠 SIEM propio + Honeypot</span>
-        <span class="pill">🧰 Stack: Ubuntu · MariaDB · PHP · Python</span>
+        <span class="pill">🧰 Stack: Ubuntu · Apache · MariaDB · PHP · Python</span>
         <span class="pill">🛡️ Seguridad: Wazuh · UFW · Hardening</span>
       </div>
 
@@ -380,12 +383,9 @@
 
   <script>
     // ========= CONFIGURACIÓN DEL REPOSITORIO =========
-    const GITHUB_OWNER = "grupocuatro-CyberASIR"; 
-    const GITHUB_REPO  = "CyberASIR";             
+    const GITHUB_OWNER = "grupocuatro-CyberASIR"; // Usuario correcto
+    const GITHUB_REPO  = "CyberASIR";             // Repositorio
     const BRANCH       = "main";
-
-    // Dashboard en vivo
-    const LIVE_DASHBOARD_URL = "https://cyberasir.duckdns.org/siem/login.php";
 
     // ========= LINKS EXACTOS DE TUS 10 ARCHIVOS =========
     const LINKS = [
@@ -557,16 +557,6 @@
     });
 
     search.addEventListener("input", () => applyFilter(search.value));
-
-    if (LIVE_DASHBOARD_URL) {
-      const a = document.createElement("a");
-      a.className = "btn";
-      a.href = LIVE_DASHBOARD_URL;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.innerHTML = '<span aria-hidden="true">🌐</span> Dashboard en vivo';
-      document.querySelector(".actions").prepend(a);
-    }
   </script>
 </body>
 </html>
